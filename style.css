@@ -16,7 +16,7 @@ body {
   padding: 2rem;
 }
 
-/* Navigation */
+/* ******************** Navigation ********************  */
 nav {
   display: flex;
   justify-content: space-between;
@@ -75,4 +75,19 @@ nav {
 .btn--sort:focus {
   outline: none;
   color: #777;
+}
+
+/* ******************** Main ********************  */
+.app {
+  position: relative;
+  max-width: 100rem;
+  margin: 4rem auto;
+  display: grid;
+  grid-template-columns: 4fr 3fr;
+  grid-template-rows: auto repeat(3, 15rem) auto;
+  gap: 2rem;
+
+  /* NOTE: This creates the fade in/out animation */
+  /* opacity: 0; */
+  transition: all 1s;
 }
