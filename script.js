@@ -60,6 +60,8 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
 /////////////////////////////////////////////////
 const displayMovements = (movements) => {
   containerMovements.innerHTML = " "; // It's for not displaying default example
@@ -91,3 +93,9 @@ const createUserNames = (accs) => {
 };
 createUserNames(accounts);
 console.log(accounts);
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} CAD`;
+};
+calcDisplayBalance(account1.movements);
