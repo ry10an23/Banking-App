@@ -99,3 +99,32 @@ const calcDisplayBalance = function (movements) {
   labelBalance.textContent = `${balance} CAD`;
 };
 calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `CAD ${incomes}`;
+
+  const out = movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `CAD ${Math.abs(out)}`;
+
+  const interest = movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  if (account1.interestRate > 1.0) {
+    labelSumInterest.textContent = `CAD ${
+      (interest * account1.interestRate) / 100
+    }`;
+  }
+};
+calcDisplaySummary(account1.movements);
+
+const cadToUsd = 0.73;
+const totalMovementsUsd = movements
+  .filter((mov) => mov > 0)
+  .map((mov) => mov * cadToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalMovementsUsd);
