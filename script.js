@@ -96,14 +96,14 @@ createUserNames(accounts);
 
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} C$`;
+  labelBalance.textContent = `${balance.toLocaleString()} C$`;
 };
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter((mov) => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `C$${incomes}`;
+  labelSumIn.textContent = `C$${incomes.toLocaleString()}`;
 
   const out = acc.movements
     .filter((mov) => mov < 0)
@@ -117,7 +117,7 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `C$${interest}`;
+  labelSumInterest.textContent = `C$${interest.toLocaleString()}`;
 };
 
 /////////////////////////////////////////////////
