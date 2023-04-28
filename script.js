@@ -94,9 +94,9 @@ const createUserNames = (accs) => {
 };
 createUserNames(accounts);
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance.toLocaleString()} C$`;
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance.toLocaleString()} C$`;
 };
 
 const calcDisplaySummary = function (acc) {
@@ -120,6 +120,17 @@ const calcDisplaySummary = function (acc) {
   labelSumInterest.textContent = `C$${interest.toLocaleString()}`;
 };
 
+const updateUI = function (acc) {
+  // Display movements
+  displayMovements(acc.movements);
+
+  // Display balance
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc);
+};
+
 /////////////////////////////////////////////////
 // Event Listener
 let currentAccount;
@@ -139,17 +150,35 @@ btnLogin.addEventListener("click", function (e) {
     }`;
     containerApp.style.opacity = 100;
 
-    // Clear the input fields
     inputLoginUsername.value = inputLoginPin.value = "";
     inputLoginPin.blur(); // Not focusing the forms
 
-    // Display movements
-    displayMovements(currentAccount.movements);
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
 
-    // Display balance
-    calcDisplayBalance(currentAccount.movements);
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    (acc) => acc.username === inputTransferTo.value
+  );
 
-    // Display summary
-    calcDisplaySummary(currentAccount);
+  // Clear the input fields
+  inputTransferAmount.value = inputTransferTo.value = "";
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
   }
 });
