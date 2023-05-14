@@ -4,7 +4,7 @@
 // Data
 const account1 = {
   owner: "Jonas Schmedtmann",
-  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
   interestRate: 1.2, // %
   pin: 1111,
   movementsDates: [
@@ -42,7 +42,7 @@ const account2 = {
 
 const account3 = {
   owner: "Steven Thomas Williams",
-  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  movements: [200, -200.99, 340.38, -300.12, -20.89, 50.25, 400, -460],
   interestRate: 0.7,
   pin: 3333,
   movementsDates: [
@@ -61,10 +61,9 @@ const account3 = {
 
 const account4 = {
   owner: "Sarah Smith",
-  movements: [430, 1000, 700, 50, 90],
+  movements: [430.05, 1000, 700.5, 50.09, 90.99],
   interestRate: 1.0,
   pin: 4444,
-  pin: 3333,
   movementsDates: [
     "2019-10-19T13:15:33.035Z",
     "2019-11-01T09:48:16.867Z",
@@ -126,7 +125,7 @@ const displayMovements = (movements, sort = false) => {
           <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-          <div class="movements__value">CA$${mov}</div>
+          <div class="movements__value">CA$${mov.toFixed(2)}</div>
         </div>
     `;
 
@@ -148,19 +147,19 @@ createUserNames(accounts);
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance.toLocaleString()} C$`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)} C$`;
 };
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter((mov) => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `C$${incomes.toLocaleString()}`;
+  labelSumIn.textContent = `C$${incomes.toFixed(2)}`;
 
   const out = acc.movements
     .filter((mov) => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `C$${Math.abs(out)}`;
+  labelSumOut.textContent = `C$${Math.abs(out).toFixed(2)}`;
 
   const interest = acc.movements
     .filter((mov) => mov > 0)
@@ -169,7 +168,7 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `C$${interest.toLocaleString()}`;
+  labelSumInterest.textContent = `C$${interest.toFixed(2)}`;
 };
 
 const updateUI = function (acc) {
@@ -195,7 +194,7 @@ btnLogin.addEventListener("click", function (e) {
   );
   console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(" ")[0]
@@ -212,7 +211,7 @@ btnLogin.addEventListener("click", function (e) {
 
 btnTransfer.addEventListener("click", function (e) {
   e.preventDefault();
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const receiverAcc = accounts.find(
     (acc) => acc.username === inputTransferTo.value
   );
@@ -238,7 +237,7 @@ btnTransfer.addEventListener("click", function (e) {
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (
     amount > 0 &&
@@ -260,7 +259,7 @@ btnClose.addEventListener("click", function (e) {
 
   if (
     currentAccount.username === inputCloseUsername.value &&
-    currentAccount.pin === Number(inputClosePin.value)
+    currentAccount.pin === +inputClosePin.value
   ) {
     let index = accounts.findIndex(
       (acc) => acc.username === currentAccount.username
