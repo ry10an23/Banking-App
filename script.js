@@ -8,14 +8,14 @@ const account1 = {
   interestRate: 1.2, // %
   pin: 1111,
   movementsDates: [
-    "2019-11-18T21:31:17.178Z",
-    "2019-12-23T07:42:02.383Z",
-    "2020-01-28T09:15:04.904Z",
-    "2020-04-01T10:17:24.185Z",
-    "2020-05-08T14:11:59.604Z",
-    "2020-07-26T17:01:17.194Z",
-    "2020-07-28T23:36:17.929Z",
-    "2020-08-01T10:51:36.790Z",
+    "2022-12-18T21:31:17.178Z",
+    "2022-12-23T07:42:02.383Z",
+    "2022-12-28T09:15:04.904Z",
+    "2023-01-01T10:17:24.185Z",
+    "2023-02-08T14:11:59.604Z",
+    "2023-03-26T17:01:17.194Z",
+    "2023-05-12T23:36:17.929Z",
+    "2023-05-15T10:51:36.790Z",
   ],
   currency: "EUR",
   locale: "pt-PT",
@@ -27,14 +27,14 @@ const account2 = {
   interestRate: 1.5,
   pin: 2222,
   movementsDates: [
-    "2019-11-01T13:15:33.035Z",
-    "2019-11-30T09:48:16.867Z",
-    "2019-12-25T06:04:23.907Z",
-    "2020-01-25T14:18:46.235Z",
-    "2020-02-05T16:33:06.386Z",
-    "2020-04-10T14:43:26.374Z",
-    "2020-06-25T18:49:59.371Z",
-    "2020-07-26T12:01:20.894Z",
+    "2022-11-01T13:15:33.035Z",
+    "2022-11-30T09:48:16.867Z",
+    "2022-12-25T06:04:23.907Z",
+    "2023-01-25T14:18:46.235Z",
+    "2023-02-05T16:33:06.386Z",
+    "2023-04-10T14:43:26.374Z",
+    "2023-05-05T18:49:59.371Z",
+    "2023-05-16T12:01:20.894Z",
   ],
   currency: "USD",
   locale: "en-US",
@@ -46,14 +46,14 @@ const account3 = {
   interestRate: 0.7,
   pin: 3333,
   movementsDates: [
-    "2019-11-11T13:15:33.035Z",
-    "2019-11-23T09:48:16.867Z",
-    "2019-12-10T06:04:23.907Z",
-    "2020-01-06T14:18:46.235Z",
-    "2020-02-04T16:33:06.386Z",
-    "2020-04-18T14:43:26.374Z",
-    "2020-06-06T18:49:59.371Z",
-    "2020-07-19T12:01:20.894Z",
+    "2022-11-11T13:15:33.035Z",
+    "2022-11-23T09:48:16.867Z",
+    "2022-12-10T06:04:23.907Z",
+    "2023-01-06T14:18:46.235Z",
+    "2023-02-04T16:33:06.386Z",
+    "2023-04-18T14:43:26.374Z",
+    "2023-05-06T18:49:59.371Z",
+    "2023-05-11T12:01:20.894Z",
   ],
   currency: "CAD",
   locale: "en-CA",
@@ -65,14 +65,14 @@ const account4 = {
   interestRate: 1.0,
   pin: 4444,
   movementsDates: [
-    "2019-10-19T13:15:33.035Z",
-    "2019-11-01T09:48:16.867Z",
-    "2019-12-24T06:04:23.907Z",
-    "2020-01-22T14:18:46.235Z",
-    "2020-02-14T16:33:06.386Z",
-    "2020-04-30T14:43:26.374Z",
-    "2020-06-29T18:49:59.371Z",
-    "2020-07-1T12:01:20.894Z",
+    "2022-10-19T13:15:33.035Z",
+    "2022-11-01T09:48:16.867Z",
+    "2022-12-24T06:04:23.907Z",
+    "2023-01-22T14:18:46.235Z",
+    "2023-02-14T16:33:06.386Z",
+    "2023-04-30T14:43:26.374Z",
+    "2023-04-29T18:49:59.371Z",
+    "2023-05-01T12:01:20.894Z",
   ],
   currency: "YEN",
   locale: "jp-JP",
@@ -112,6 +112,24 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 // Function
+
+const formatMovementDate = function (date) {
+  const calcDasysPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPassed = calcDasysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  if (daysPassed === 0) return "Today";
+  if (daysPassed === 1) return "Yesterday";
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
+  else {
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+};
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = " "; // It's for not displaying default example
 
@@ -123,10 +141,7 @@ const displayMovements = function (acc, sort = false) {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatMovementDate(date);
 
     const html = `
         <div class="movements__row">
@@ -201,7 +216,6 @@ updateUI(currentAccount);
 containerApp.style.opacity = 100;
 
 // day / month / year
-
 btnLogin.addEventListener("click", function (e) {
   // Prevent form submitting
   e.preventDefault();
