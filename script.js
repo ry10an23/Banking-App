@@ -23,7 +23,7 @@ const account1 = {
 
 const account2 = {
   owner: "Jessica Davis",
-  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  movements: [50, 340, 500, 400, 320, -50, 550, -30],
   interestRate: 1.5,
   pin: 2222,
   movementsDates: [
@@ -42,7 +42,7 @@ const account2 = {
 
 const account3 = {
   owner: "Steven Thomas Williams",
-  movements: [200, -200.99, 340.38, -300.12, -20.89, 50.25, 400, -460],
+  movements: [200, -200.99, 340.38, 300.12, -20.89, 50.25, 4000, -460],
   interestRate: 0.7,
   pin: 3333,
   movementsDates: [
@@ -61,7 +61,7 @@ const account3 = {
 
 const account4 = {
   owner: "Sarah Smith",
-  movements: [430.05, 1000, 700.5, 50.09, 90.99],
+  movements: [43000, 100000, 70000, 5000.09, 90000],
   interestRate: 1.0,
   pin: 4444,
   movementsDates: [
@@ -221,9 +221,9 @@ const updateUI = function (acc) {
 let currentAccount;
 
 // FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 
 // Experimenting API
 
